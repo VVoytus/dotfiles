@@ -19,11 +19,11 @@ anchor_right = true
 
 
 [keybinds]
-close = "esc"
-next = "down"
-previous = "up"
-toggle_exact = "ctrl e"
-resume_last_query = "ctrl r"
+close = ["Escape"]
+next = ["Down"]
+previous = ["Up"]
+toggle_exact = ["ctrl e"]
+resume_last_query = ["ctrl r"]
 
 [providers]
 default = [
