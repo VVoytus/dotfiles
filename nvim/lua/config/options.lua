@@ -291,7 +291,7 @@ return {
 		ruff = {},
 		rust_analyzer = {},
 		sqlls = {},
-		systemd_ls = {},
+		systemd_lsp = {},
 		templ = {},
 		texlab = {},
 		ts_ls = {},
