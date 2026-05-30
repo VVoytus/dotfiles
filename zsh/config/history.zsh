@@ -23,4 +23,14 @@ HISTFILE=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/zsh_history
 [[ "$SAVEHIST" -gt 1000 ]] || SAVEHIST=100000  # History file size
 [[ "$HISTSIZE" -gt 2000 ]] || HISTSIZE=20000   # Session history size
 
+# Init bindings.
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
 
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
