@@ -36,13 +36,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER=${BROWSER:-open}
 fi
 
-# zellij
-if [[ $TERM == xterm-ghostty ]] && (( $+commands[zellij] )); then
-  export ZELLIJ_ENABLED=true
-  export ZELLIJ_AUTO_ATTACH=true
-  export ZELLIJ_AUTO_EXIT=true
-fi
-
 # Enable less wait time between key presses
 export KEYTIMEOUT=1
 

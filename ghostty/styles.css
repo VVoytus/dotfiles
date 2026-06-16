@@ -1,0 +1,17 @@
+tab {
+  padding: 0;
+  border: 1px solid #313244;
+  background: transparent;
+}
+
+tab:selected {
+  border-color: #585b70;
+}
+
+tab:hover {
+  color: #f5e0dc;
+}
+
+tab button {
+  opacity: 0;
+}

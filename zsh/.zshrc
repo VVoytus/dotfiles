@@ -58,11 +58,6 @@ do
   unset _zrc
 done
 
-# Initialize zellij if it is installed and in proper terminal.
-if [[ $TERM == xterm-ghostty ]] && (( $+commands[zellij] )); then
-  eval "$(zellij setup --generate-auto-start zsh)"
-fi
-
 # Init prompt.
 if ! (( $#prompt_themes > 0 )); then
   promptinit
