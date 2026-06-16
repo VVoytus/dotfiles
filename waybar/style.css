@@ -14,6 +14,7 @@ window#waybar {
 }
 
 button {
+  background-color: @mantle;
   /* Use box-shadow instead of border so the text isn't offset */
   box-shadow: inset 0 -3px transparent;
   /* Avoid rounded borders under each button name */
@@ -34,30 +35,23 @@ tooltip label {
 /* left module */
 
 #workspaces {
-  border: 1px solid @rosewater;
+  border: 1px solid @surface2;
   border-radius: 1rem;
   margin-right: 0.5rem;
 }
 
 #workspaces button {
   padding: 0 0.5rem;
-  background-color: transparent;
   color: @text;
 }
 
 #workspaces button:hover {
-  background: @rosewater;
-  color: @base;
-  opacity: 0.5;
+  color: @rosewater;
 }
 
 #workspaces button.active {
   background-color: @rosewater;
   color: @base;
-}
-
-#workspaces button.active:hover {
-  opacity: 0.75;
 }
 
 #workspaces button:first-child {
@@ -77,11 +71,15 @@ tooltip label {
 }
 
 #mpd {
-  background-color: transparent;
-  border: 1px solid @rosewater;
+  background-color: @mantle;
+  border: 1px solid @surface2;
   border-radius: 1rem;
   color: @text;
   padding: 0 0.75rem;
+}
+
+#mpd:hover {
+  color: @rosewater;
 }
 
 /* center module */
@@ -93,8 +91,8 @@ tooltip label {
 /* right module */
 
 .modules-right {
-  background-color: transparent;
-  border: 1px solid @rosewater;
+  background-color: @mantle;
+  border: 1px solid @surface2;
   border-radius: 1rem;
 }
 
@@ -211,4 +209,13 @@ tooltip label {
 #custom-power {
   color: @red;
   padding-right: 0;
+}
+
+#idle_inhibitor:hover,
+#wireplumber:hover,
+#bluetooth:hover,
+#network:hover,
+#custom-vpn:hover,
+#custom-stats:hover {
+  color: @rosewater;
 }
