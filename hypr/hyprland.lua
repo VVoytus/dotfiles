@@ -17,15 +17,19 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1, mirr
 ---- MY PROGRAMS ----
 ---------------------
 
-local function uwsm_launch(app)
-	return "uwsm app -- " .. app
+local function uwsm_launch_app(name)
+	return "uwsm app -- " .. name
+end
+
+local function uwsm_launch_service(name)
+	return "uwsm app -t service -- " .. name
 end
 
 -- Set programs that you use
 local terminal = "ghostty"
 local file_manager = "thunar"
-local menu_app = "walker"
-local menu_service = menu_app .. " --gapplication-service"
+local menu_app = "hyprlauncher"
+local menu_service = menu_app .. " -d"
 local browser = "apulse zen-browser"
 local code_editor = "cursor"
 local music_player = "/usr/share/applications/com.yktoo.ymuse.desktop"
@@ -39,14 +43,14 @@ local mail_client = "thunderbird"
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 
 hl.on("hyprland.start", function()
-	hl.exec_cmd(uwsm_launch(menu_service))
-	hl.exec_cmd(uwsm_launch(terminal))
-	hl.exec_cmd(uwsm_launch(browser))
-	hl.exec_cmd(uwsm_launch(code_editor))
-	hl.exec_cmd(uwsm_launch(music_player))
-	hl.exec_cmd(uwsm_launch(mail_client))
-	hl.exec_cmd("hyprctl dispatch workspace 1")
-	hl.exec_cmd("hyprpm reload -n")
+	hl.exec_cmd(uwsm_launch_service(menu_service))
+	hl.exec_cmd(uwsm_launch_app(browser), { workspace = "2 silent" })
+	hl.exec_cmd(uwsm_launch_app(terminal), { workspace = "3 silent" })
+	hl.exec_cmd(uwsm_launch_app(code_editor))
+	hl.exec_cmd(uwsm_launch_app(music_player), { workspace = "5 silent" })
+	hl.exec_cmd(uwsm_launch_app(mail_client), { workspace = "6 silent" })
+	hl.dsp.focus({ workspace = 1 })
+	hl.exec_cmd("hyprpm reload -f -n")
 end)
 
 hl.on("config.reloaded", function()
@@ -88,7 +92,7 @@ hl.config({
 		border_size = 1,
 
 		col = {
-			active_border = colors.rosewater,
+			active_border = colors.surface2,
 			inactive_border = colors.surface0,
 		},
 
@@ -241,11 +245,12 @@ local function main_mod(key)
 	return "SUPER + " .. key
 end
 
-hl.bind(main_mod("RETURN"), hl.dsp.exec_cmd(uwsm_launch(terminal)))
-hl.bind(main_mod("E"), hl.dsp.exec_cmd(uwsm_launch(file_manager)))
-hl.bind(main_mod("S"), hl.dsp.exec_cmd(uwsm_launch(menu_app)))
+hl.bind(main_mod("RETURN"), hl.dsp.exec_cmd(uwsm_launch_app(terminal)))
+hl.bind(main_mod("E"), hl.dsp.exec_cmd(uwsm_launch_app(file_manager)))
+hl.bind(main_mod("S"), hl.dsp.exec_cmd(uwsm_launch_app(menu_app)))
 
 hl.bind(main_mod("Q"), hl.dsp.window.close())
+hl.bind(main_mod("W"), hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 hl.bind(
 	main_mod("SHIFT + Q"),
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
@@ -320,8 +325,11 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Requires hyprshot
-hl.bind(main_mod("PRINT"), hl.dsp.exec_cmd("hyprshot -m window"))
-hl.bind(main_mod("SHIFT + PRINT"), hl.dsp.exec_cmd("hyprshot -m region"))
+hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m window"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
+
+-- Requires wleave
+hl.bind("XF86PowerOff", hl.dsp.exec_cmd("wleave"), { locked = true })
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
@@ -368,59 +376,18 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "zen-browser",
-	match = {
-		class = "^zen$",
-	},
-
-	tile = true,
-	workspace = "2 silent",
-})
-
-hl.window_rule({
-	name = "ghostty",
-	match = {
-		class = "^com.mitchellh.ghostty$",
-	},
-
-	tile = true,
-	workspace = "3 silent",
-})
-
-hl.window_rule({
-	name = "cursor",
+	name = "cursor-in-4th-workspace",
 	match = {
 		class = "^cursor$",
 	},
 
-	tile = true,
 	workspace = "4 silent",
-})
-
-hl.window_rule({
-	name = "ymuse",
-	match = {
-		class = "^ymuse$",
-	},
-
-	tile = true,
-	workspace = "5 silent",
-})
-
-hl.window_rule({
-	name = "thunderbird",
-	match = {
-		class = "^org.mozilla.Thunderbird$",
-	},
-
-	tile = true,
-	workspace = "6 silent",
 })
 
 hl.window_rule({
 	name = "tiled",
 	match = {
-		class = "^org.pwmt.zathura|calibre-gui$",
+		class = "^org.pwmt.zathura|calibre-gui|zen|com.mitchellh.ghostty|cursor|ymuse|org.mozilla.Thunderbird$",
 	},
 
 	tile = true,
